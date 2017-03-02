@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+      var url = "https://www.reddit.com/subreddits/search.json?q=reactjs",
+          subreddits = [];
+      $.getJSON(url, function(response) {
+        var redditArr = response.data.children;
+
+        for(i=0; i < redditArr.length; i++){
+          var sub = redditArr[i].data;
+          console.log(sub);
+          sub.title ? sub.title : sub.title = "";
+          sub.subscribers ? sub.subscribers : sub.subscribers = "";
+          sub.public_description ? sub.public_description : sub.public_description = "";
+
+          $('#subreddit-table').append('<tr><th>' + '<a target="_blank" href="https://www.reddit.com' + sub.url + '">' + sub.title + '</a></th>' + '<td>'+ sub.subscribers + '</td>' + '<td>'+ sub.public_description + '</td></tr>');
+        }
+      });
+    </script>
+    <style>
+      h1 {
+        text-align: center;
+      }
+      .subreddit {
+        margin-left: auto;
+        margin-right: auto;
+        border-spacing: 5px;
+      }
+      .subreddit th, .subreddit td {
+        padding: 10px;
+      }
+      .subreddit tr:nth-child(even) {
+        background-color: #d3d3d3;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>ReactJS Subreddit</h1>
+    <table id="subreddit-table" class="subreddit">
+    </table>
+  </body>
+</html>
